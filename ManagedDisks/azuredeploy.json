@@ -26,16 +26,6 @@
         "description": "Name of the virtual machine."
       }
     },
-    "publicIPAddressType": {
-      "type": "string",
-      "allowedValues": [
-        "Dynamic",
-        "Static"
-      ],
-      "metadata": {
-        "description": "Public IP address"
-      }
-    },
     "subnetName": {
       "type": "string",
       "allowedValues": [
@@ -185,22 +175,6 @@
         "platformFaultDomainCount": 3,
         "platformUpdateDomainCount": 5,
         "managed": true
-      }
-    },
-    {
-      "apiVersion": "[providers('Microsoft.Network','publicIPAddresses').apiVersions[0]]",
-      "type": "Microsoft.Network/publicIPAddresses",
-      "name": "[concat(variables('vmName'),copyIndex(parameters('numerationOfVMs')),variables('publicIPAddressName'))]",
-      "location": "[resourceGroup().location]",
-      "copy": {
-        "name": "publicIPLoop",
-        "count": "[parameters('numberOfInstances')]"
-      },
-      "properties": {
-        "publicIPAllocationMethod": "[parameters('publicIPAddressType')]",
-        "dnsSettings": {
-          "domainNameLabel": "[toLower(concat(variables('vmName'),copyIndex(parameters('numerationOfVMs'))))]"
-        }
       }
     },
     {
