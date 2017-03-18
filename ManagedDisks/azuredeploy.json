@@ -186,18 +186,12 @@
         "name": "nicLoop",
         "count": "[parameters('numberOfInstances')]"
       },
-      "dependsOn": [
-        "[concat(variables('vmName'),copyIndex(parameters('numerationOfVMs')),variables('publicIPAddressName'),copyIndex(1))]"
-      ],
       "properties": {
         "ipConfigurations": [
           {
             "name": "ipconfig1",
             "properties": {
               "privateIPAllocationMethod": "Dynamic",
-              "publicIPAddress": {
-                "id": "[resourceId('Microsoft.Network/publicIPAddresses',concat(variables('vmName'),copyIndex(parameters('numerationOfVMs')),variables('publicIPAddressName'),copyIndex(1)))]"
-              },
               "subnet": {
                 "id": "[concat(resourceId(variables('resourceGroupNetwork'),'Microsoft.Network/virtualNetworks',variables('virtualNetworkName')),'/subnets/',parameters('subnetName'))]"
               }
