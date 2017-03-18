@@ -14,12 +14,6 @@
         "description": "Username of the Virtual Machine."
       }
     },
-    "availabilitySet": {
-      "type": "string",
-      "metadata": {
-        "description": "Availability set"
-      }
-    },
     "vmName": {
       "type": "string",
       "metadata": {
@@ -167,17 +161,6 @@
   },
   "resources": [
     {
-      "apiVersion": "[providers('Microsoft.Compute','availabilitySets').apiVersions[0]]",
-      "type": "Microsoft.Compute/availabilitySets",
-      "name": "[parameters('availabilitySet')]",
-      "location": "[resourceGroup().location]",
-      "properties": {
-        "platformFaultDomainCount": 3,
-        "platformUpdateDomainCount": 5,
-        "managed": true
-      }
-    },
-    {
       "apiVersion": "[providers('Microsoft.Network','networkInterfaces').apiVersions[0]]",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[concat(variables('vmName'),copyIndex(parameters('numerationOfVMs')),variables('nicName'))]",
@@ -210,13 +193,9 @@
         "count": "[parameters('numberOfInstances')]"
       },
       "dependsOn": [
-        "[concat('Microsoft.Network/networkInterfaces/',variables('vmName'),copyIndex(parameters('numerationOfVMs')),variables('nicName'))]",
-        "[concat('Microsoft.Compute/availabilitySets/',parameters('availabilitySet'))]"
+        "[concat('Microsoft.Network/networkInterfaces/',variables('vmName'),copyIndex(parameters('numerationOfVMs')),variables('nicName'))]"
       ],
       "properties": {
-        "availabilitySet": {
-          "id": "[resourceId('Microsoft.Compute/availabilitySets', parameters('availabilitySet'))]"
-        },
         "hardwareProfile": {
           "vmSize": "[parameters('vmSize')]"
         },
@@ -237,9 +216,6 @@
           },
           "osDisk": {
             "name": "[concat(variables('vmName'),copyIndex(parameters('numerationOfVMs')),variables('OSDiskName'))]",
-            /*"vhd": {
-              "uri": "[concat(reference(concat(subscription().id,'/resourceGroups/Lab/','providers/Microsoft.Storage/storageAccounts/',parameters('storageAccountName')),providers('Microsoft.Storage','storageAccounts').apiVersions[0]).primaryEndpoints.blob,variables('vmStorageAccountContainerName'),'/',concat(variables('vmName'),copyIndex(parameters('numerationOfVMs')),variables('OSDiskName')),'.vhd')]"
-            },*/
             "caching": "ReadWrite",
             "createOption": "FromImage"
           }
