@@ -66,14 +66,14 @@
                 "description": "Client ID (used by cloudprovider)"
             },
             "type": "securestring",
-            "defaultValue": "/subscriptions/05499249-2bf5-4767-b121-db90943e363e/resourceGroups/kubernetesrg921115/providers/Microsoft.KeyVault/vaults/Kubernetes9330/secrets/K8SPID"
+            "defaultValue": ""
         },
         "servicePrincipalClientSecret": {
             "metadata": {
                 "description": "The Service Principal Client Secret."
             },
             "type": "securestring",
-            "defaultValue": "/subscriptions/05499249-2bf5-4767-b121-db90943e363e/resourceGroups/kubernetesrg921115/providers/Microsoft.KeyVault/vaults/Kubernetes9330/secrets/K8SPSecret"
+            "defaultValue": ""
         },
         "osType": {
             "type": "string",
