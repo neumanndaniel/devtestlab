@@ -82,7 +82,7 @@
                 "servicePrincipalClientId": {
                     "reference": {
                         "keyVault": {
-                            "id": "/subscriptions/05499249-2bf5-4767-b121-db90943e363e/resourceGroups/Lab/providers/Microsoft.KeyVault/vaults/DevTestLab5996"
+                            "id": "/subscriptions/05499249-2bf5-4767-b121-db90943e363e/resourceGroups/Lab/providers/Microsoft.KeyVault/vaults/kubernetes"
                         },
                         "secretName": "K8SPID"
                         }
@@ -90,7 +90,7 @@
                 "servicePrincipalClientSecret": {
                     "reference": {
                         "keyVault": {
-                            "id": "/subscriptions/05499249-2bf5-4767-b121-db90943e363e/resourceGroups/Lab/providers/Microsoft.KeyVault/vaults/DevTestLab5996"
+                            "id": "/subscriptions/05499249-2bf5-4767-b121-db90943e363e/resourceGroups/Lab/providers/Microsoft.KeyVault/vaults/kubernetes"
                         },
                         "secretName": "K8SPSecret"
                         }  
