@@ -117,9 +117,6 @@
                 },
                 "adminUserEnabled": {
                     "value": true
-                },
-                "masterDnsNamePrefix": {
-                    "value": "[concat(parameters('dnsNamePrefix'),'mgmt')]"
                 }
               }
             }
