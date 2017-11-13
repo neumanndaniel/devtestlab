@@ -2,132 +2,60 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "resourceNameDTL": {
+        "registryName": {
             "type": "string",
             "metadata": {
-                "description": "The name of the ACS resource."
+                "description": "The name of the container registry."
             }
         },
-        "dnsNamePrefix": {
+        "registrySku": {
+            "type": "string",
+            "defaultValue": "Basic",
+            "metadata": {
+                "description": "The SKU of the container registry."
+            }
+        },
+        "adminUserEnabled": {
+            "type": "bool",
+            "defaultValue": false,
+            "metadata": {
+                "description": "The value that indicates whether the admin user is enabled."
+            }
+        },
+        "principalId": {
             "type": "string",
             "metadata": {
-                "description": "Sets the Domain name prefix for the Master nodes in a cluster.  The concatenation of the domain name and the regionalized DNS zone make up the fully qualified domain name associated with the public IP address."
+              "description": "User name"
             }
-        },
-        "principalIdDTL": {
-            "type": "string",
-            "metadata": {
-              "description": "User name that should have the contributor role assigned on the Azure Container Registry"
-            }
-        },
-        "linuxAdminUsernameDTL": {
-            "type": "string",
-            "defaultValue": "azureuser",
-            "metadata": {
-                "description": "User name for the Linux Virtual Machines."
-            }
-        },
-        "sshRSAPublicKeyDTL": {
-            "type": "securestring",
-            "metadata": {
-                "description": "Configure all linux machines with the SSH RSA public key string.  Your key should include three parts, for example 'ssh-rsa AAAAB...snip...UcyupgH azureuser@linuxvm'"
-            }
-        },
-        "servicePrincipalClientIdDTL": {
-            "metadata": {
-                "description": "Client ID (used by cloudprovider)"
-            },
-            "type": "securestring"
-        },
-        "servicePrincipalClientSecretDTL": {
-            "metadata": {
-                "description": "The Service Principal Client Secret."
-            },
-            "type": "securestring"
         }
     },
     "variables": {
-        "templateLinkACS": "https://raw.githubusercontent.com/neumanndaniel/devtestlab/master/Kubernetes/acs.json",
-        "templateLinkACR": "https://raw.githubusercontent.com/neumanndaniel/devtestlab/master/Kubernetes/acr.json"
+        "Contributor": "[concat('/subscriptions/',subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', 'b24988ac-6180-42a0-ab88-20f7382dd24c')]",
     },
     "resources": [
         {
-            "apiVersion": "[providers('Microsoft.Resources','deployments').apiVersions[0]]",
-            "type": "Microsoft.Resources/deployments",
-            "name": "[concat(parameters('resourceNameDTL'),'-acs')]",
+            "name": "[parameters('registryName')]",
+            "type": "Microsoft.ContainerRegistry/registries",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2017-10-01",
+            "sku": {
+                "name": "[parameters('registrySku')]"
+            },
             "properties": {
-              "mode": "Incremental",
-              "templateLink": {
-                "uri": "[variables('templateLinkACS')]",
-                "contentVersion": "1.0.0.0"
-              },
-              "parameters": {
-                "resourceName": {
-                    "value": "[parameters('resourceNameDTL')]"
-                },
-                "linuxAdminUsername": {
-                    "value": "[parameters('linuxAdminUsernameDTL')]"
-                },
-                "sshRSAPublicKey": {
-                    "value": "[parameters('sshRSAPublicKeyDTL')]"
-                },
-                "masterDnsNamePrefix": {
-                    "value": "[concat(parameters('dnsNamePrefix'),'mgmt')]"
-                },
-                "agentDnsNamePrefix": {
-                    "value": "[concat(parameters('dnsNamePrefix'),'agents')]"
-                },
-                "agentCount": {
-                    "value": 3
-                },
-                "agentVMSize": {
-                    "value": "Standard_A2_v2"
-                },
-                "orchestratorType": {
-                    "value": "Kubernetes"
-                },
-                "masterCount": {
-                    "value": 1
-                },
-                "osType": {
-                    "value": "Linux"
-                },
-                "ukRegion": {
-                    "value": false
-                },
-                "servicePrincipalClientId": {
-                    "value": "[parameters('servicePrincipalClientIdDTL')]"
-                },
-                "servicePrincipalClientSecret": {
-                    "value": "[parameters('servicePrincipalClientSecretDTL')]"
-                }
-              }
+                "adminUserEnabled": "[parameters('adminUserEnabled')]"
             }
         },
         {
-            "apiVersion": "[providers('Microsoft.Resources','deployments').apiVersions[0]]",
-            "type": "Microsoft.Resources/deployments",
-            "name": "[concat(parameters('resourceNameDTL'),'-acr')]",
+            "name": "[concat(parameters('registryName'),'-role')]",
+            "type": "Microsoft.ContainerRegistry/registries/providers/roleAssignments",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2017-10-01",
+            "dependsOn": [
+                "[parameters('registryName')]"
+            ],
             "properties": {
-              "mode": "Incremental",
-              "templateLink": {
-                "uri": "[variables('templateLinkACR')]",
-                "contentVersion": "1.0.0.0"
-              },
-              "parameters": {
-                "registryName": {
-                    "value": "[parameters('resourceNameDTL')]"
-                },
-                "registrySku": {
-                    "value": "Basic"
-                },
-                "adminUserEnabled": {
-                    "value": true
-                },
-                "principalId": {
-                    "value": "[parameters('principalIdDTL')]"
-                }
-              }
+                "roleDefinitionId": "[variables('Contributor')]",
+                "principalId": "[parameters('principalId')]"
             }
         }
     ]
