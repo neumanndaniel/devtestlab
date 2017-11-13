@@ -14,12 +14,6 @@
                 "description": "Sets the Domain name prefix for the Master nodes in a cluster.  The concatenation of the domain name and the regionalized DNS zone make up the fully qualified domain name associated with the public IP address."
             }
         },
-        "principalIdDTL": {
-            "type": "string",
-            "metadata": {
-              "description": "User name that should have the contributor role assigned on the Azure Container Registry"
-            }
-        },
         "linuxAdminUsernameDTL": {
             "type": "string",
             "defaultValue": "azureuser",
@@ -123,9 +117,6 @@
                 },
                 "adminUserEnabled": {
                     "value": true
-                },
-                "principalId": {
-                    "value": "[parameters('principalIdDTL')]"
                 }
               }
             }
