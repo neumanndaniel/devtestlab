@@ -48,7 +48,7 @@
         {
             "type": "Microsoft.Authorization/roleAssignments",
             "apiVersion": "2017-05-01",
-            "name": "[concat(parameters('registryName'),'-roleassignment')]",
+            "name": "[guid(resourceGroup().id)]",
             "properties": {
                 "roleDefinitionId": "[variables('Contributor')]",
                 "principalId": "[parameters('principalId')]",
