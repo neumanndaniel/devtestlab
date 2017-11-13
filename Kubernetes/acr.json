@@ -21,7 +21,16 @@
             "metadata": {
                 "description": "The value that indicates whether the admin user is enabled."
             }
+        },
+        "principalId": {
+            "type": "string",
+            "metadata": {
+              "description": "User name"
+            }
         }
+    },
+    "variables": {
+        "Contributor": "[concat('/subscriptions/',subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', 'b24988ac-6180-42a0-ab88-20f7382dd24c')]",
     },
     "resources": [
         {
@@ -34,6 +43,19 @@
             },
             "properties": {
                 "adminUserEnabled": "[parameters('adminUserEnabled')]"
+            }
+        },
+        {
+            "name": "[concat(parameters('registryName'),'-role')]",
+            "type": "Microsoft.ContainerRegistry/registries/providers/roleAssignments",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2017-10-01",
+            "dependsOn": [
+                "[parameters('registryName')]"
+            ],
+            "properties": {
+                "roleDefinitionId": "[variables('Contributor')]",
+                "principalId": "[parameters('principalId')]"
             }
         }
     ]
