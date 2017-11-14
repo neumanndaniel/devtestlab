@@ -41,8 +41,7 @@
         }
     },
     "variables": {
-        "templateLinkACS": "https://raw.githubusercontent.com/neumanndaniel/devtestlab/master/Kubernetes/acs.json",
-        "templateLinkACR": "https://raw.githubusercontent.com/neumanndaniel/devtestlab/master/Kubernetes/acr.json"
+        "templateLinkACS": "https://raw.githubusercontent.com/neumanndaniel/devtestlab/master/Kubernetes/acs.json"
     },
     "resources": [
         {
@@ -94,29 +93,6 @@
                 },
                 "servicePrincipalClientSecret": {
                     "value": "[parameters('servicePrincipalClientSecretDTL')]"
-                }
-              }
-            }
-        },
-        {
-            "apiVersion": "[providers('Microsoft.Resources','deployments').apiVersions[0]]",
-            "type": "Microsoft.Resources/deployments",
-            "name": "[concat(parameters('resourceNameDTL'),'-acr')]",
-            "properties": {
-              "mode": "Incremental",
-              "templateLink": {
-                "uri": "[variables('templateLinkACR')]",
-                "contentVersion": "1.0.0.0"
-              },
-              "parameters": {
-                "registryName": {
-                    "value": "[parameters('resourceNameDTL')]"
-                },
-                "registrySku": {
-                    "value": "Basic"
-                },
-                "adminUserEnabled": {
-                    "value": true
                 }
               }
             }
