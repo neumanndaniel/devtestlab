@@ -1,0 +1,7 @@
+{
+
+"itemDisplayName": "Azure Container Service - Kubernetes",
+
+"description": "Deploys a Kubernetes cluster with one master and three agents."
+
+}
