@@ -1,0 +1,7 @@
+{
+
+"itemDisplayName": "Azure Container Service - AKS Preview",
+
+"description": "Deploys a managed Kubernetes cluster (AKS) with one master and three agents."
+
+}
