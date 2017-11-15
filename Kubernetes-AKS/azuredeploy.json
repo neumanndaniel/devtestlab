@@ -14,6 +14,29 @@
                 "description": "Sets the Domain name prefix for the Master nodes in a cluster.  The concatenation of the domain name and the regionalized DNS zone make up the fully qualified domain name associated with the public IP address."
             }
         },
+        "kubernetesVersionDTL": {
+            "type": "string",
+            "defaultValue": "1.7.7",
+            "allowedValues": [
+                "1.7.7",
+                "1.8.1"
+            ],
+            "metadata": {
+                "description": "The version of Kubernetes."
+            }
+        },
+        "aksRegionDTL": {
+            "type": "string",
+            "defaultValue": "westeurope",
+            "allowedValues": [
+                "westeurope",
+                "eastus",
+                "westus2"
+            ],
+            "metadata": {
+                "description": "Azure region for AKS deployment."
+            }
+        },
         "linuxAdminUsernameDTL": {
             "type": "string",
             "defaultValue": "azureuser",
@@ -38,29 +61,6 @@
                 "description": "The Service Principal Client Secret."
             },
             "type": "securestring"
-        },
-        "kubernetesVersionDTL": {
-            "type": "string",
-            "defaultValue": "1.7.7",
-            "allowedValues": [
-                "1.7.7",
-                "1.8.1"
-            ],
-            "metadata": {
-                "description": "The version of Kubernetes."
-            }
-        },
-        "aksRegionDTL": {
-            "type": "string",
-            "defaultValue": "westeurope",
-            "allowedValues": [
-                "westeurope",
-                "eastus",
-                "westus2"
-            ],
-            "metadata": {
-                "description": "Azure region for AKS deployment."
-            }
         }
     },
     "variables": {
