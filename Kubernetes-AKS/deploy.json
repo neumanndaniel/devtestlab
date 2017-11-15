@@ -1,0 +1,121 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "resourceNameDTL": {
+            "type": "string",
+            "metadata": {
+                "description": "The name of the ACS resource."
+            }
+        },
+        "dnsNamePrefix": {
+            "type": "string",
+            "metadata": {
+                "description": "Sets the Domain name prefix for the Master nodes in a cluster.  The concatenation of the domain name and the regionalized DNS zone make up the fully qualified domain name associated with the public IP address."
+            }
+        },
+        "linuxAdminUsernameDTL": {
+            "type": "string",
+            "defaultValue": "azureuser",
+            "metadata": {
+                "description": "User name for the Linux Virtual Machines."
+            }
+        },
+        "sshRSAPublicKeyDTL": {
+            "type": "securestring",
+            "metadata": {
+                "description": "Configure all linux machines with the SSH RSA public key string.  Your key should include three parts, for example 'ssh-rsa AAAAB...snip...UcyupgH azureuser@linuxvm'"
+            }
+        },
+        "servicePrincipalClientIdDTL": {
+            "metadata": {
+                "description": "Client ID (used by cloudprovider)"
+            },
+            "type": "securestring"
+        },
+        "servicePrincipalClientSecretDTL": {
+            "metadata": {
+                "description": "The Service Principal Client Secret."
+            },
+            "type": "securestring"
+        },
+        "kubernetesVersionDTL": {
+            "type": "string",
+            "defaultValue": "1.7.7",
+            "allowedValues": [
+                "1.7.7",
+                "1.8.1"
+            ],
+            "metadata": {
+                "description": "The version of Kubernetes."
+            }
+        },
+        "aksRegionDTL": {
+            "type": "string",
+            "defaultValue": "westeurope",
+            "allowedValues": [
+                "westeurope",
+                "eastus",
+                "westus2"
+            ],
+            "metadata": {
+                "description": "Azure region for AKS deployment."
+            }
+        }
+    },
+    "variables": {
+        "templateLinkAKS": "https://raw.githubusercontent.com/neumanndaniel/devtestlab/master/Kubernetes-AKS/aks.json"
+    },
+    "resources": [
+        {
+            "apiVersion": "[providers('Microsoft.Resources','deployments').apiVersions[0]]",
+            "type": "Microsoft.Resources/deployments",
+            "name": "[concat(parameters('resourceNameDTL'),'-acs')]",
+            "properties": {
+              "mode": "Incremental",
+              "templateLink": {
+                "uri": "[variables('templateLinkAKS')]",
+                "contentVersion": "1.0.0.0"
+              },
+              "parameters": {
+                "resourceName": {
+                    "value": "[parameters('resourceNameDTL')]"
+                },
+                "linuxAdminUsername": {
+                    "value": "[parameters('linuxAdminUsernameDTL')]"
+                },
+                "sshRSAPublicKey": {
+                    "value": "[parameters('sshRSAPublicKeyDTL')]"
+                },
+                "dnsPrefix": {
+                    "value": "[parameters('dnsNamePrefix')]"
+                },
+                "agentCount": {
+                    "value": 3
+                },
+                "agentVMSize": {
+                    "value": "Standard_A2_v2"
+                },
+                "kubernetesVersion": {
+                    "value": "[parameters('kubernetesVersionDTL')]"
+                },
+                "osDiskSizeGB": {
+                    "value": 0
+                },
+                "osType": {
+                    "value": "Linux"
+                },
+                "aksRegion": {
+                    "value": "[parameters('aksRegionDTL')]"
+                },
+                "servicePrincipalClientId": {
+                    "value": "[parameters('servicePrincipalClientIdDTL')]"
+                },
+                "servicePrincipalClientSecret": {
+                    "value": "[parameters('servicePrincipalClientSecretDTL')]"
+                }
+              }
+            }
+        }
+    ]
+}
