@@ -49,6 +49,18 @@
             "metadata": {
                 "description": "Configure all linux machines with the SSH RSA public key string.  Your key should include three parts, for example 'ssh-rsa AAAAB...snip...UcyupgH azureuser@linuxvm'"
             }
+        },
+        "servicePrincipalClientIdDTL": {
+            "metadata": {
+                "description": "Client ID (used by cloudprovider)"
+            },
+            "type": "securestring"
+        },
+        "servicePrincipalClientSecretDTL": {
+            "metadata": {
+                "description": "The Service Principal Client Secret."
+            },
+            "type": "securestring"
         }
     },
     "variables": {
@@ -95,6 +107,12 @@
                 },
                 "aksRegion": {
                     "value": "[parameters('aksRegionDTL')]"
+                },
+                "servicePrincipalClientId": {
+                    "value": "[parameters('servicePrincipalClientIdDTL')]"
+                },
+                "servicePrincipalClientSecret": {
+                    "value": "[parameters('servicePrincipalClientSecretDTL')]"
                 }
               }
             }
