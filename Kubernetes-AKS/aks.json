@@ -344,7 +344,7 @@
     },
     "aksCluster": {
       "clusterName": "[parameters('clusterName')]",
-      "dnsPrefix": "[parameters('clustername')]",
+      "dnsPrefix": "[parameters('clusterName')]",
       "location": "[parameters('aksregion')]",
       "kubernetesVersion": "[parameters('kubernetesVersion')]",
       "maxPods": "[parameters('maxPods')]",
