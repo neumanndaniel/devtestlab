@@ -8,6 +8,12 @@
         "description": "Log Analytics workspace name"
       }
     },
+    "workspaceRegion": {
+      "type": "string",
+      "metadata": {
+        "description": "Azure region for Log Analytics workspace deployment"
+      }
+    }
     "serviceTier": {
       "type": "string",
       "defaultValue": "Free",
@@ -41,6 +47,7 @@
     },
     "logAnalyticsConfiguration": {
       "workspaceName": "[parameters('workspaceName')]",
+      "workspaceRegion": "[parameters('workspaceRegion')]",
       "serviceTier": "[parameters('serviceTier')]",
       "dataRetention": "[parameters('dataRetention')]"
     }
@@ -50,7 +57,7 @@
       "apiVersion": "[variables('apiVersion').logAnalytics]",
       "type": "Microsoft.OperationalInsights/workspaces",
       "name": "[variables('logAnalyticsConfiguration').workspaceName]",
-      "location": "[resourceGroup().location]",
+      "location": "[variables('logAnalyticsConfiguration').workspaceRegion]",
       "properties": {
         "sku": {
           "Name": "[variables('logAnalyticsConfiguration').serviceTier]"
@@ -62,7 +69,7 @@
           "apiVersion": "[variables('apiVersion').logAnalyticsSolutions]",
           "type": "Microsoft.OperationsManagement/solutions",
           "name": "[variables('containerInsights').name]",
-          "location": "[resourceGroup().location]",
+          "location": "[variables('logAnalyticsConfiguration').workspaceRegion]",
           "id": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.OperationsManagement/solutions/', variables('containerInsights').name)]",
           "dependsOn": [
             "[concat('Microsoft.OperationalInsights/workspaces/', variables('logAnalyticsConfiguration').workspaceName)]"
