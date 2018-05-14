@@ -79,7 +79,7 @@
             "clusterNameDtl": "[parameters('clusterNameDtl')]",
             "kubernetesVersionDtl": "[parameters('kubernetesVersionDtl')]",
             "aksRegionDtl": "[parameters('aksRegionDtl')]",
-            "workspaceNameDtl": "[concat('container',uniqueString(parameters('clusterNameDtl')))]",
+            "workspaceNameDtl": "",
             "workspaceRegionDtl": "[if(equals(parameters('aksRegionDtl'),'westeurope'),'westeurope',if(equals(parameters('aksRegionDtl'),'eastus'),'eastus',if(equals(parameters('aksRegionDtl'),'canadacentral'),'canadacentral',if(equals(parameters('aksRegionDtl'),'canadaeast'),'canadacentral','eastus'))))]",
             "linuxAdminUserNameDtl": "[parameters('linuxAdminUsernameDtl')]",
             "sshRSAPublicKeyDtl": "[parameters('sshRSAPublicKeyDtl')]",
@@ -102,7 +102,7 @@
               },
               "parameters": {
                 "workspaceName": {
-                    "value": "[variables('deploymentConfiguration').workspaceNameDtl]"
+                    "value": "[concat('container',uniqueString(variables('deploymentConfiguration').clusterNameDtl))]"
                   },
                   "workspaceRegion": {
                     "value": "[variables('deploymentConfiguration').workspaceRegionDtl]"
