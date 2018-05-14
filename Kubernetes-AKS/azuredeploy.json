@@ -8,12 +8,6 @@
                 "description": "The name of the AKS cluster."
             }
         },
-        "workspaceNameDtl": {
-          "type": "string",
-          "metadata": {
-              "description": "The name of the Azure Log Analytics workspace."
-          }
-      },
         "kubernetesVersionDtl": {
             "type": "string",
             "defaultValue": "1.9.6",
@@ -85,7 +79,7 @@
             "clusterNameDtl": "[parameters('clusterNameDtl')]",
             "kubernetesVersionDtl": "[parameters('kubernetesVersionDtl')]",
             "aksRegionDtl": "[parameters('aksRegionDtl')]",
-            "workspaceNameDtl": "[parameters('workspaceNameDtl')]",
+            "workspaceNameDtl": "[uniqueString(resourceGroup().id)]",
             "workspaceRegionDtl": "[if(equals(parameters('aksRegionDtl'),'westeurope'),'westeurope',if(equals(parameters('aksRegionDtl'),'eastus'),'eastus',if(equals(parameters('aksRegionDtl'),'canadacentral'),'canadacentral',if(equals(parameters('aksRegionDtl'),'canadaeast'),'canadacentral','eastus'))))]",
             "linuxAdminUserNameDtl": "[parameters('linuxAdminUsernameDtl')]",
             "sshRSAPublicKeyDtl": "[parameters('sshRSAPublicKeyDtl')]",
@@ -185,10 +179,10 @@
                     "value": true
                   },
                   "workspaceName": {
-                    "value": "[variables('deploymentConfiguration')]"
+                    "value": "[variables('deploymentConfiguration').workspaceNameDtl]"
                   },
                   "workspaceResourceGroup": {
-                    "value": "[variables('deploymentConfiguration')]"
+                    "value": "[resourceGroup().name]"
                   },
                   "enableHttpApplicationRouting": {
                     "value": true
