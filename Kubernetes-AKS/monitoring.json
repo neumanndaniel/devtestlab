@@ -13,7 +13,7 @@
       "metadata": {
         "description": "Azure region for Log Analytics workspace deployment"
       }
-    }
+    },
     "serviceTier": {
       "type": "string",
       "defaultValue": "Free",
