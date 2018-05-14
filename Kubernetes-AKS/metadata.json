@@ -2,6 +2,6 @@
 
 "itemDisplayName": "Azure Kubernetes Service - AKS",
 
-"description": "Deploys a managed Kubernetes cluster (AKS) with one master and three agents and the Azure Monitor container health solution."
+"description": "Deploys an AKS cluster with three agent nodes and the Azure Monitor container health solution."
 
 }
