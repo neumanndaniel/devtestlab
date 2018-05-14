@@ -121,7 +121,7 @@
             "type": "Microsoft.Resources/deployments",
             "name": "[concat(variables('deploymentConfiguration').clusterNameDtl,'-aks')]",
             "dependsOn": [
-                "[concat('Microsoft.Resources/deployments', variables('deploymentConfiguration').clusterNameDtl,'-aksmonitoring')]"
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentConfiguration').clusterNameDtl,'-aksmonitoring')]"
             ],
             "properties": {
               "mode": "Incremental",
