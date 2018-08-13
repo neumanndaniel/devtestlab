@@ -90,10 +90,10 @@
         "description": "Custom RBAC role id"
       }
     },
-    "aadUserNameDtl": {
-      "type": "string",
+    "aadUserPrincipalIdDtl": {
+      "type": "securestring",
       "metadata": {
-        "description": "Enter your AAD user name"
+        "description": "Enter your AAD user principal id"
       }
     }
   },
@@ -112,7 +112,7 @@
       "servicePrincipalClientIdDtl": "[parameters('servicePrincipalClientIdDtl')]",
       "servicePrincipalClientSecretDtl": "[parameters('servicePrincipalClientSecretDtl')]",
       "dtlAksCredentialsDtl": "[parameters('dtlAksCredentialsDtl')]",
-      "aadUserNameDtl": "[parameters('aadUserNameDtl')]",
+      "aadUserPrincipalIdDtl": "[parameters('aadUserPrincipalIdDtl')]",
       "templateLinkAks": "https://raw.githubusercontent.com/neumanndaniel/devtestlab/master/Kubernetes-AKS/aks.json",
       "templateLinkLogAnalytics": "https://raw.githubusercontent.com/neumanndaniel/devtestlab/master/Kubernetes-AKS/monitoring.json"
     }
@@ -239,8 +239,8 @@
           "dtlAksCredentials": {
             "value": "[variables('deploymentConfiguration').dtlAksCredentialsDtl]"
           },
-          "aadUserName": {
-            "value": "[variables('deploymentConfiguration').aadUserNameDtl]"
+          "aadUserPrincipalId": {
+            "value": "[variables('deploymentConfiguration').aadUserPrincipalIdDtl]"
           }
         }
       }
