@@ -341,10 +341,10 @@
                 "description": "Custom RBAC role id"
             }
         },
-        "aadUserName": {
+        "aadUserPrincipalId": {
             "type": "string",
             "metadata": {
-                "description": "Enter your AAD user name"
+                "description": "Enter your AAD user principal id"
             }
         }
     },
@@ -393,7 +393,7 @@
         },
         "roleBasedAccess": {
             "roleDefinitionId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', parameters('dtlAksCredentials'))]",
-            "principalId": "[parameters('aadUserName')]"
+            "principalId": "[parameters('aadUserPrincipalId')]"
         },
         "outputArray": {
             "copy": [
