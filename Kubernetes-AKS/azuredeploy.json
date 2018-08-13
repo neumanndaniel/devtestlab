@@ -1,229 +1,249 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-    "contentVersion": "1.0.0.0",
-    "parameters": {
-        "clusterNameDtl": {
-            "type": "string",
-            "metadata": {
-                "description": "The name of the AKS cluster."
-            }
-        },
-        "kubernetesVersionDtl": {
-            "type": "string",
-            "defaultValue": "1.11.1",
-            "allowedValues": [
-                "1.7.7",
-                "1.7.9",
-                "1.7.12",
-                "1.7.15",
-                "1.7.16",
-                "1.8.1",
-                "1.8.2",
-                "1.8.6",
-                "1.8.7",
-                "1.8.10",
-                "1.8.11",
-                "1.8.14",
-                "1.9.1",
-                "1.9.2",
-                "1.9.6",
-                "1.9.9",
-                "1.10.3",
-                "1.10.5",
-                "1.10.6",
-                "1.11.1"
-            ],
-            "metadata": {
-                "description": "The version of Kubernetes."
-            }
-        },
-        "aksRegionDtl": {
-            "type": "string",
-            "defaultValue": "westeurope",
-            "allowedValues": [
-                "westeurope",
-                "eastus",
-                "eastus2",
-                "centralus",
-                "canadacentral",
-                "canadaeast",
-                "northeurope",
-                "australiaeast",
-                "uksouth",
-                "westus",
-                "westus2",
-                "japaneast",
-                "southeastasia"
-            ],
-            "metadata": {
-                "description": "Azure region for AKS deployment."
-            }
-        },
-        "linuxAdminUsernameDtl": {
-            "type": "string",
-            "defaultValue": "azureuser",
-            "metadata": {
-                "description": "User name for the Linux nodes."
-            }
-        },
-        "sshRSAPublicKeyDtl": {
-            "type": "securestring",
-            "metadata": {
-                "description": "Configure all linux machines with the SSH RSA public key string.  Your key should include three parts, for example 'ssh-rsa AAAAB...snip...UcyupgH azureuser@linuxvm'"
-            }
-        },
-        "servicePrincipalClientIdDtl": {
-            "metadata": {
-                "description": "The Service Principal client id."
-            },
-            "type": "securestring"
-        },
-        "servicePrincipalClientSecretDtl": {
-            "metadata": {
-                "description": "The Service Principal client secret."
-            },
-            "type": "securestring"
-        }
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "clusterNameDtl": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of the AKS cluster."
+      }
     },
-    "variables": {
-        "apiVersion": {
-            "resourceDeployments": "2017-05-10"
-        },
-        "deploymentConfiguration": {
-            "clusterNameDtl": "[parameters('clusterNameDtl')]",
-            "kubernetesVersionDtl": "[parameters('kubernetesVersionDtl')]",
-            "aksRegionDtl": "[parameters('aksRegionDtl')]",
-            "workspaceNameDtl": "[uniqueString(resourceGroup().id)]",
-            "workspaceRegionDtl": "[if(equals(parameters('aksRegionDtl'),'westeurope'),'westeurope',if(equals(parameters('aksRegionDtl'),'eastus'),'eastus',if(equals(parameters('aksRegionDtl'),'canadacentral'),'canadacentral',if(equals(parameters('aksRegionDtl'),'canadaeast'),'canadacentral','eastus'))))]",
-            "linuxAdminUserNameDtl": "[parameters('linuxAdminUsernameDtl')]",
-            "sshRSAPublicKeyDtl": "[parameters('sshRSAPublicKeyDtl')]",
-            "servicePrincipalClientIdDtl": "[parameters('servicePrincipalClientIdDtl')]",
-            "servicePrincipalClientSecretDtl": "[parameters('servicePrincipalClientSecretDtl')]",
-            "templateLinkAks": "https://raw.githubusercontent.com/neumanndaniel/devtestlab/master/Kubernetes-AKS/aks.json",
-            "templateLinkLogAnalytics": "https://raw.githubusercontent.com/neumanndaniel/devtestlab/master/Kubernetes-AKS/monitoring.json"
-        }
+    "kubernetesVersionDtl": {
+      "type": "string",
+      "defaultValue": "1.11.1",
+      "allowedValues": [
+        "1.7.7",
+        "1.7.9",
+        "1.7.12",
+        "1.7.15",
+        "1.7.16",
+        "1.8.1",
+        "1.8.2",
+        "1.8.6",
+        "1.8.7",
+        "1.8.10",
+        "1.8.11",
+        "1.8.14",
+        "1.9.1",
+        "1.9.2",
+        "1.9.6",
+        "1.9.9",
+        "1.10.3",
+        "1.10.5",
+        "1.10.6",
+        "1.11.1"
+      ],
+      "metadata": {
+        "description": "The version of Kubernetes."
+      }
     },
-    "resources": [
-        {
-            "apiVersion": "[variables('apiVersion').resourceDeployments]",
-            "type": "Microsoft.Resources/deployments",
-            "name": "[concat(variables('deploymentConfiguration').clusterNameDtl,'-aksmonitoring')]",
-            "properties": {
-              "mode": "Incremental",
-              "templateLink": {
-                "uri": "[variables('deploymentConfiguration').templateLinkLogAnalytics]",
-                "contentVersion": "1.0.0.0"
-              },
-              "parameters": {
-                "workspaceName": {
-                    "value": "[variables('deploymentConfiguration').workspaceNameDtl]"
-                  },
-                  "workspaceRegion": {
-                    "value": "[variables('deploymentConfiguration').workspaceRegionDtl]"
-                  },
-                  "serviceTier": {
-                    "value": "Free"
-                  },
-                  "dataRetention": {
-                    "value": 7
-                  }
-              }
-            }
+    "aksRegionDtl": {
+      "type": "string",
+      "defaultValue": "westeurope",
+      "allowedValues": [
+        "westeurope",
+        "eastus",
+        "eastus2",
+        "centralus",
+        "canadacentral",
+        "canadaeast",
+        "northeurope",
+        "australiaeast",
+        "uksouth",
+        "westus",
+        "westus2",
+        "japaneast",
+        "southeastasia"
+      ],
+      "metadata": {
+        "description": "Azure region for AKS deployment."
+      }
+    },
+    "linuxAdminUsernameDtl": {
+      "type": "string",
+      "defaultValue": "azureuser",
+      "metadata": {
+        "description": "User name for the Linux nodes."
+      }
+    },
+    "sshRSAPublicKeyDtl": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Configure all linux machines with the SSH RSA public key string.  Your key should include three parts, for example 'ssh-rsa AAAAB...snip...UcyupgH azureuser@linuxvm'"
+      }
+    },
+    "servicePrincipalClientIdDtl": {
+      "metadata": {
+        "description": "The Service Principal client id."
+      },
+      "type": "securestring"
+    },
+    "servicePrincipalClientSecretDtl": {
+      "metadata": {
+        "description": "The Service Principal client secret."
+      },
+      "type": "securestring"
+    },
+    "dtlAksCredentialsDtl": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Custom RBAC role id"
+      }
+    },
+    "aadUserNameDtl": {
+      "type": "string",
+      "metadata": {
+        "description": "Enter your AAD user name"
+      }
+    }
+  },
+  "variables": {
+    "apiVersion": {
+      "resourceDeployments": "2017-05-10"
+    },
+    "deploymentConfiguration": {
+      "clusterNameDtl": "[parameters('clusterNameDtl')]",
+      "kubernetesVersionDtl": "[parameters('kubernetesVersionDtl')]",
+      "aksRegionDtl": "[parameters('aksRegionDtl')]",
+      "workspaceNameDtl": "[uniqueString(resourceGroup().id)]",
+      "workspaceRegionDtl": "[if(equals(parameters('aksRegionDtl'),'westeurope'),'westeurope',if(equals(parameters('aksRegionDtl'),'eastus'),'eastus',if(equals(parameters('aksRegionDtl'),'canadacentral'),'canadacentral',if(equals(parameters('aksRegionDtl'),'canadaeast'),'canadacentral','eastus'))))]",
+      "linuxAdminUserNameDtl": "[parameters('linuxAdminUsernameDtl')]",
+      "sshRSAPublicKeyDtl": "[parameters('sshRSAPublicKeyDtl')]",
+      "servicePrincipalClientIdDtl": "[parameters('servicePrincipalClientIdDtl')]",
+      "servicePrincipalClientSecretDtl": "[parameters('servicePrincipalClientSecretDtl')]",
+      "dtlAksCredentialsDtl": "[parameters('dtlAksCredentialsDtl')]",
+      "aadUserNameDtl": "[parameters('aadUserNameDtl')]",
+      "templateLinkAks": "https://raw.githubusercontent.com/neumanndaniel/devtestlab/master/Kubernetes-AKS/aks.json",
+      "templateLinkLogAnalytics": "https://raw.githubusercontent.com/neumanndaniel/devtestlab/master/Kubernetes-AKS/monitoring.json"
+    }
+  },
+  "resources": [
+    {
+      "apiVersion": "[variables('apiVersion').resourceDeployments]",
+      "type": "Microsoft.Resources/deployments",
+      "name": "[concat(variables('deploymentConfiguration').clusterNameDtl,'-aksmonitoring')]",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('deploymentConfiguration').templateLinkLogAnalytics]",
+          "contentVersion": "1.0.0.0"
         },
-        {
-            "apiVersion": "[variables('apiVersion').resourceDeployments]",
-            "type": "Microsoft.Resources/deployments",
-            "name": "[concat(variables('deploymentConfiguration').clusterNameDtl,'-aks')]",
-            "dependsOn": [
-                "[concat('Microsoft.Resources/deployments/', variables('deploymentConfiguration').clusterNameDtl,'-aksmonitoring')]"
-            ],
-            "properties": {
-              "mode": "Incremental",
-              "templateLink": {
-                "uri": "[variables('deploymentConfiguration').templateLinkAks]",
-                "contentVersion": "1.0.0.0"
-              },
-              "parameters": {
-                "clusterName": {
-                    "value": "[variables('deploymentConfiguration').clusterNameDtl]"
-                  },
-                  "osDiskSizeGB": {
-                    "value": 0
-                  },
-                  "agentCount": {
-                    "value": 3
-                  },
-                  "agentVMSize": {
-                    "value": "Standard_A2_v2"
-                  },
-                  "linuxAdminUsername": {
-                    "value": "[variables('deploymentConfiguration').linuxAdminUserNameDtl]"
-                  },
-                  "sshRSAPublicKey": {
-                    "value": "[variables('deploymentConfiguration').sshRSAPublicKeyDtl]"
-                  },
-                  "servicePrincipalClientId": {
-                    "value": "[variables('deploymentConfiguration').servicePrincipalClientIdDtl]"
-                  },
-                  "servicePrincipalClientSecret": {
-                    "value": "[variables('deploymentConfiguration').servicePrincipalClientSecretDtl]"
-                  },
-                  "osType": {
-                    "value": "Linux"
-                  },
-                  "kubernetesVersion": {
-                    "value": "[variables('deploymentConfiguration').kubernetesVersionDtl]"
-                  },
-                  "aksRegion": {
-                    "value": "[variables('deploymentConfiguration').aksRegionDtl]"
-                  },
-                  "numberOfInstances": {
-                    "value": 1
-                  },
-                  "aksClusterNumeration": {
-                    "value": 1
-                  },
-                  "maxPods": {
-                    "value": 30
-                  },
-                  "customVnet": {
-                    "value": "no"
-                  },
-                  "enableOmsAgent": {
-                    "value": true
-                  },
-                  "workspaceName": {
-                    "value": "[variables('deploymentConfiguration').workspaceNameDtl]"
-                  },
-                  "workspaceResourceGroup": {
-                    "value": "[resourceGroup().name]"
-                  },
-                  "enableHttpApplicationRouting": {
-                    "value": true
-                  },
-                  "networkPlugin": {
-                    "value": "kubenet"
-                  },
-                  "vnetName": {
-                    "value": ""
-                  },
-                  "vnetSubnetName": {
-                    "value": ""
-                  },
-                  "vnetResourceGroupName": {
-                    "value": ""
-                  },
-                  "serviceCidr": {
-                    "value": ""
-                  },
-                  "dnsServiceIp": {
-                    "value": ""
-                  },
-                  "dockerBridgeCidr": {
-                    "value": ""
-                  }
-              }
-            }
+        "parameters": {
+          "workspaceName": {
+            "value": "[variables('deploymentConfiguration').workspaceNameDtl]"
+          },
+          "workspaceRegion": {
+            "value": "[variables('deploymentConfiguration').workspaceRegionDtl]"
+          },
+          "serviceTier": {
+            "value": "Free"
+          },
+          "dataRetention": {
+            "value": 7
+          }
         }
-    ]
+      }
+    },
+    {
+      "apiVersion": "[variables('apiVersion').resourceDeployments]",
+      "type": "Microsoft.Resources/deployments",
+      "name": "[concat(variables('deploymentConfiguration').clusterNameDtl,'-aks')]",
+      "dependsOn": [
+        "[concat('Microsoft.Resources/deployments/', variables('deploymentConfiguration').clusterNameDtl,'-aksmonitoring')]"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('deploymentConfiguration').templateLinkAks]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "clusterName": {
+            "value": "[variables('deploymentConfiguration').clusterNameDtl]"
+          },
+          "osDiskSizeGB": {
+            "value": 0
+          },
+          "agentCount": {
+            "value": 3
+          },
+          "agentVMSize": {
+            "value": "Standard_A2_v2"
+          },
+          "linuxAdminUsername": {
+            "value": "[variables('deploymentConfiguration').linuxAdminUserNameDtl]"
+          },
+          "sshRSAPublicKey": {
+            "value": "[variables('deploymentConfiguration').sshRSAPublicKeyDtl]"
+          },
+          "servicePrincipalClientId": {
+            "value": "[variables('deploymentConfiguration').servicePrincipalClientIdDtl]"
+          },
+          "servicePrincipalClientSecret": {
+            "value": "[variables('deploymentConfiguration').servicePrincipalClientSecretDtl]"
+          },
+          "osType": {
+            "value": "Linux"
+          },
+          "kubernetesVersion": {
+            "value": "[variables('deploymentConfiguration').kubernetesVersionDtl]"
+          },
+          "aksRegion": {
+            "value": "[variables('deploymentConfiguration').aksRegionDtl]"
+          },
+          "numberOfInstances": {
+            "value": 1
+          },
+          "aksClusterNumeration": {
+            "value": 1
+          },
+          "maxPods": {
+            "value": 30
+          },
+          "customVnet": {
+            "value": "no"
+          },
+          "enableOmsAgent": {
+            "value": true
+          },
+          "workspaceName": {
+            "value": "[variables('deploymentConfiguration').workspaceNameDtl]"
+          },
+          "workspaceResourceGroup": {
+            "value": "[resourceGroup().name]"
+          },
+          "enableHttpApplicationRouting": {
+            "value": true
+          },
+          "networkPlugin": {
+            "value": "kubenet"
+          },
+          "vnetName": {
+            "value": ""
+          },
+          "vnetSubnetName": {
+            "value": ""
+          },
+          "vnetResourceGroupName": {
+            "value": ""
+          },
+          "serviceCidr": {
+            "value": ""
+          },
+          "dnsServiceIp": {
+            "value": ""
+          },
+          "dockerBridgeCidr": {
+            "value": ""
+          },
+          "dtlAksCredentials": {
+            "value": "[variables('deploymentConfiguration').dtlAksCredentialsDtl]"
+          },
+          "aadUserName": {
+            "value": "[variables('deploymentConfiguration').aadUserNameDtl]"
+          }
+        }
+      }
+    }
+  ]
 }
