@@ -335,10 +335,10 @@
                 "description": "A CIDR notation IP for Docker bridge."
             }
         },
-        "dtlAksCredentials": {
+        "rbacRoleDefinitionId": {
             "type": "string",
             "metadata": {
-                "description": "Custom RBAC role id"
+                "description": "Custom RBAC role definition id"
             }
         },
         "aadUserPrincipalId": {
@@ -392,7 +392,7 @@
             "customVnet": "[parameters('customVnet')]"
         },
         "roleBasedAccess": {
-            "roleDefinitionId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', parameters('dtlAksCredentials'))]",
+            "roleDefinitionId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', parameters('rbacRoleDefinitionId'))]",
             "principalId": "[parameters('aadUserPrincipalId')]"
         },
         "outputArray": {
