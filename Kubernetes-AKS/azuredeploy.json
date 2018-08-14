@@ -84,10 +84,10 @@
       },
       "type": "securestring"
     },
-    "dtlAksCredentialsDtl": {
+    "rbacRoleDefinitionIdDtl": {
       "type": "securestring",
       "metadata": {
-        "description": "Custom RBAC role id"
+        "description": "Custom RBAC role definition id"
       }
     },
     "aadUserPrincipalIdDtl": {
@@ -111,7 +111,7 @@
       "sshRSAPublicKeyDtl": "[parameters('sshRSAPublicKeyDtl')]",
       "servicePrincipalClientIdDtl": "[parameters('servicePrincipalClientIdDtl')]",
       "servicePrincipalClientSecretDtl": "[parameters('servicePrincipalClientSecretDtl')]",
-      "dtlAksCredentialsDtl": "[parameters('dtlAksCredentialsDtl')]",
+      "rbacRoleDefinitionIdDtl": "[parameters('rbacRoleDefinitionIdDtl')]",
       "aadUserPrincipalIdDtl": "[parameters('aadUserPrincipalIdDtl')]",
       "templateLinkAks": "https://raw.githubusercontent.com/neumanndaniel/devtestlab/master/Kubernetes-AKS/aks.json",
       "templateLinkLogAnalytics": "https://raw.githubusercontent.com/neumanndaniel/devtestlab/master/Kubernetes-AKS/monitoring.json"
@@ -236,8 +236,8 @@
           "dockerBridgeCidr": {
             "value": ""
           },
-          "dtlAksCredentials": {
-            "value": "[variables('deploymentConfiguration').dtlAksCredentialsDtl]"
+          "rbacRoleDefinitionId": {
+            "value": "[variables('deploymentConfiguration').rbacRoleDefinitionIdDtl]"
           },
           "aadUserPrincipalId": {
             "value": "[variables('deploymentConfiguration').aadUserPrincipalIdDtl]"
