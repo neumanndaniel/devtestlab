@@ -10,7 +10,7 @@
     },
     "kubernetesVersionDtl": {
       "type": "string",
-      "defaultValue": "1.11.1",
+      "defaultValue": "1.11.2",
       "allowedValues": [
         "1.7.7",
         "1.7.9",
@@ -31,7 +31,8 @@
         "1.10.3",
         "1.10.5",
         "1.10.6",
-        "1.11.1"
+        "1.11.1",
+        "1.11.2"
       ],
       "metadata": {
         "description": "The version of Kubernetes."
@@ -84,12 +85,6 @@
       },
       "type": "securestring"
     },
-    "rbacRoleDefinitionIdDtl": {
-      "type": "securestring",
-      "metadata": {
-        "description": "Custom RBAC role definition id"
-      }
-    },
     "aadUserPrincipalIdDtl": {
       "type": "securestring",
       "metadata": {
@@ -111,7 +106,6 @@
       "sshRSAPublicKeyDtl": "[parameters('sshRSAPublicKeyDtl')]",
       "servicePrincipalClientIdDtl": "[parameters('servicePrincipalClientIdDtl')]",
       "servicePrincipalClientSecretDtl": "[parameters('servicePrincipalClientSecretDtl')]",
-      "rbacRoleDefinitionIdDtl": "[parameters('rbacRoleDefinitionIdDtl')]",
       "aadUserPrincipalIdDtl": "[parameters('aadUserPrincipalIdDtl')]",
       "templateLinkAks": "https://raw.githubusercontent.com/neumanndaniel/devtestlab/master/Kubernetes-AKS/aks.json",
       "templateLinkLogAnalytics": "https://raw.githubusercontent.com/neumanndaniel/devtestlab/master/Kubernetes-AKS/monitoring.json"
@@ -237,7 +231,7 @@
             "value": ""
           },
           "rbacRoleDefinitionId": {
-            "value": "[variables('deploymentConfiguration').rbacRoleDefinitionIdDtl]"
+            "value": "0ab0b1a8-8aac-4efd-b8c2-3ee1fb270be8"
           },
           "aadUserPrincipalId": {
             "value": "[variables('deploymentConfiguration').aadUserPrincipalIdDtl]"
