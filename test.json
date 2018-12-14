@@ -1,0 +1,17 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Network/loadBalancers"
+      },
+      {
+        "field": "Microsoft.Network/loadBalancers/frontendIPConfigurations[*].publicIPAddress.id",
+        "exists": true
+      }
+    ]
+  },
+  "then": {
+    "effect": "audit"
+  }
+}
